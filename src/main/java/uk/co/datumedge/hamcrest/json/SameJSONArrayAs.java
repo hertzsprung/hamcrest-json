@@ -31,6 +31,9 @@ public class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> {
 	protected boolean matchesSafely(JSONArray actual, Description mismatchDescription) {
 		try {
 			JSONCompareResult result = compareJSON(expected, actual, STRICT_ORDER);
+			if (result.failed()) {
+				mismatchDescription.appendText(result.getMessage());
+			}
 			return result.passed();
 		} catch (JSONException e) {
 			return true;
