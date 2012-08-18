@@ -1,7 +1,7 @@
 package uk.co.datumedge.hamcrest.json;
 
-import static org.skyscreamer.jsonassert.JSONCompare.compareJSON;
-import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT_ORDER;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
@@ -9,17 +9,21 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.skyscreamer.jsonassert.JSONCompareResult;
 
 /**
  * Matcher that asserts that one JSONArray is the same as another.
  */
-public class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> {
-
-	private JSONArray expected;
-
+public final class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> {
+	private final JSONArray expected;
+	private JSONComparator comparator;
+	
 	public SameJSONArrayAs(JSONArray expected) {
+		this(expected, new JSONAssertComparator());
+	}
+
+	public SameJSONArrayAs(JSONArray expected, JSONComparator comparator) {
 		this.expected = expected;
+		this.comparator = comparator;
 	}
 
 	@Override
@@ -30,18 +34,26 @@ public class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> {
 	@Override
 	protected boolean matchesSafely(JSONArray actual, Description mismatchDescription) {
 		try {
-			JSONCompareResult result = compareJSON(expected, actual, STRICT_ORDER);
+			JSONComparisonResult result = comparator.compare(expected, actual);
 			if (result.failed()) {
-				mismatchDescription.appendText(result.getMessage());
+				mismatchDescription.appendText(result.getFailureMessage());
 			}
 			return result.passed();
 		} catch (JSONException e) {
-			return true;
+			StringWriter out = new StringWriter();
+			e.printStackTrace(new PrintWriter(out));
+			mismatchDescription.appendText(out.toString());
+			return false;
 		}
 	}
-	
+
 	@Factory
 	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected) {
 		return new SameJSONArrayAs(expected);
+	}
+	
+	@Factory
+	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONComparator jsonComparator) {
+		return new SameJSONArrayAs(expected, jsonComparator);
 	}
 }
