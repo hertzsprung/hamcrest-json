@@ -65,6 +65,10 @@ public class SameJSONArrayAsTest {
 		matcher.describeMismatch(actual, mismatchDescription);
 		assertThat(mismatchDescription, both(containsString(EXCEPTION_MESSAGE)).and(containsString(SameJSONArrayAs.class.getName())));
 	}
+	
+	@Test public void doesNotMatchWhenActualJSONHasExtraFields() throws JSONException {
+		assertThat(new JSONArray("[{'a':3, 'b':5}, 2]"), is(not(sameJSONArrayAs(new JSONArray("[{'a':3}, 2]")))));
+	}
 
 	private void allowingJSONComparatorToThrowJSONException() throws JSONException {
 		context.checking(new Expectations() {{
