@@ -16,7 +16,7 @@ import org.json.JSONException;
 public final class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> {
 	private final JSONArray expected;
 	private JSONComparator comparator;
-	
+
 	public SameJSONArrayAs(JSONArray expected) {
 		this(expected, new JSONAssertComparator());
 	}

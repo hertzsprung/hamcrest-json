@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONCompareResult;
 
 /**
- * A {@code JSONComparator} implementation backed by SkyScreamer's JSONAssert library. 
+ * A {@code JSONComparator} implementation backed by SkyScreamer's JSONAssert library.
  */
 public final class JSONAssertComparator implements JSONComparator {
 	@Override

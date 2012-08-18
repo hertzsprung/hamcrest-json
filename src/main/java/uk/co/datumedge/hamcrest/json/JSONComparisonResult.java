@@ -7,12 +7,12 @@ public final class JSONComparisonResult {
 	private static final JSONComparisonResult PASSED = new JSONComparisonResult();
 	private final boolean passed;
 	private final String message;
-	
+
 	private JSONComparisonResult() {
 		this.passed = true;
 		this.message = "";
 	}
-	
+
 	private JSONComparisonResult(String message) {
 		this.passed = false;
 		this.message = message;
