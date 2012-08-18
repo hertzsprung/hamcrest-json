@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>uk.co.datumedge</groupId>
+		<artifactId>datumedge-base</artifactId>
+		<version>0.1</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>hamcrest-json</artifactId>
+	<version>0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	
+	<name>Hamcrest JSON</name>
+	<description>Hamcrest JSON matchers</description>
+	<url>https://github.com/hertzsprung/hamcrest-json</url>
+	<inceptionYear>2012</inceptionYear>
+	
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/hertzsprung/hamcrest-json/issues</url>
+	</issueManagement>
+	<scm>
+		<connection>scm:git:git://github.com/hertzsprung/hamcrest-json.git</connection>
+		<developerConnection>scm:git:git@github.com:hertzsprung/hamcrest-json.git</developerConnection>
+		<url>http://github.com/hertzsprung/hamcrest-json</url>
+	</scm>
+	<distributionManagement>
+		<site>
+			<id>datumedge-site</id>
+			<name>DatumEdge website</name>
+			<url>scp://pepperfish.net/home/jshaw/websites/datumedge.co.uk/www/html/hamcrest-json</url>
+		</site>
+	</distributionManagement>
+</project>
