@@ -24,8 +24,7 @@ public class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> {
 
 	@Override
 	public void describeTo(Description description) {
-		// TODO Auto-generated method stub
-		
+		description.appendValue(expected.toString());
 	}
 
 	@Override
