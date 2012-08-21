@@ -1,15 +1,20 @@
 package uk.co.datumedge.hamcrest.json;
 
+import static org.skyscreamer.jsonassert.JSONCompare.compareJSON;
+import static org.skyscreamer.jsonassert.JSONCompareMode.LENIENT;
+
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SameJSONObjectAs extends TypeSafeDiagnosingMatcher<JSONObject> {
+	private final JSONObject expected;
 
 	public SameJSONObjectAs(JSONObject expected) {
-		// TODO Auto-generated constructor stub
+		this.expected = expected;
 	}
 	
 	@Override
@@ -19,9 +24,13 @@ public class SameJSONObjectAs extends TypeSafeDiagnosingMatcher<JSONObject> {
 	}
 	
 	@Override
-	protected boolean matchesSafely(JSONObject item, Description mismatchDescription) {
-		// TODO Auto-generated method stub
-		return true;
+	protected boolean matchesSafely(JSONObject actual, Description mismatchDescription) {
+		try {
+			return compareJSON(expected, actual, LENIENT).passed();
+		} catch (JSONException e) {
+			return true;
+			// TODO Auto-generated catch block
+		}
 	}
 
 	@Factory
