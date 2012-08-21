@@ -16,7 +16,6 @@ import org.json.JSONException;
 import org.junit.Rule;
 import org.junit.Test;
 
-
 public class SameJSONArrayAsTest {
 	private static final String EXCEPTION_MESSAGE = "exception message";
 	private final JSONArray actual = new JSONArray("[13]");
