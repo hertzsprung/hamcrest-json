@@ -19,7 +19,7 @@ import org.json.JSONObject;
  */
 public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	private final T expected;
-	private JSONComparator<T> comparator;
+	private final JSONComparator<T> comparator;
 
 	public SameJSONAs(T expected, JSONComparator<T> comparator) {
 		this.expected = expected;
@@ -36,7 +36,7 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 		try {
 			JSONComparisonResult result = comparator.compare(expected, actual);
 			if (result.failed()) {
-				mismatchDescription.appendText(result.getFailureMessage());
+				mismatchDescription.appendDescriptionOf(result);
 			}
 			return result.passed();
 		} catch (JSONException e) {

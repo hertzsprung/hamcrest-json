@@ -10,7 +10,7 @@ import org.json.JSONObject;
 /**
  * A {@code JSONComparator} implementation that compares {@code JSONObject}s, backed by SkyScreamer's JSONAssert library.
  */
-public class JSONObjectAssertComparator implements JSONComparator<JSONObject> {
+public final class JSONObjectAssertComparator implements JSONComparator<JSONObject> {
 
 	@Override
 	public JSONComparisonResult compare(JSONObject expected, JSONObject actual) throws JSONException {

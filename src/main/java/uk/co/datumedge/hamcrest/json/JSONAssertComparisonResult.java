@@ -6,7 +6,14 @@ import static uk.co.datumedge.hamcrest.json.JSONComparisonResult.comparisonPasse
 import org.skyscreamer.jsonassert.JSONCompareResult;
 
 final class JSONAssertComparisonResult {
+	
 	static JSONComparisonResult resultOf(JSONCompareResult result) {
-		return result.passed() ? comparisonPassed() : comparisonFailed(result.getMessage());
+		if (result.isFailureOnField()) {
+			return comparisonFailed(result.getField(), result.getExpected(), result.getActual());
+		} else if (result.failed()) {
+			return comparisonFailed(result.getMessage());
+		} else {
+			return comparisonPassed();
+		}
 	}
 }
