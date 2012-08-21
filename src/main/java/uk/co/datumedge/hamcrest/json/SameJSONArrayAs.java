@@ -15,13 +15,13 @@ import org.json.JSONException;
  */
 public final class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> {
 	private final JSONArray expected;
-	private JSONComparator comparator;
+	private JSONComparator<JSONArray> comparator;
 
 	public SameJSONArrayAs(JSONArray expected) {
-		this(expected, new JSONAssertComparator());
+		this(expected, new JSONArrayAssertComparator());
 	}
 
-	public SameJSONArrayAs(JSONArray expected, JSONComparator comparator) {
+	public SameJSONArrayAs(JSONArray expected, JSONComparator<JSONArray> comparator) {
 		this.expected = expected;
 		this.comparator = comparator;
 	}
@@ -53,7 +53,7 @@ public final class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> 
 	}
 	
 	@Factory
-	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONComparator jsonComparator) {
+	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONComparator<JSONArray> jsonComparator) {
 		return new SameJSONArrayAs(expected, jsonComparator);
 	}
 }

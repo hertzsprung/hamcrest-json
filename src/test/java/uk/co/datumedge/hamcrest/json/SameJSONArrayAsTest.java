@@ -22,7 +22,7 @@ public class SameJSONArrayAsTest {
 	private final JSONArray expected = new JSONArray("[42]");
 	
 	@Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
-	private final JSONComparator jsonComparator = context.mock(JSONComparator.class);
+	@SuppressWarnings("unchecked") private final JSONComparator<JSONArray> jsonComparator = context.mock(JSONComparator.class);
 	
 	public SameJSONArrayAsTest() throws JSONException {
 	}
