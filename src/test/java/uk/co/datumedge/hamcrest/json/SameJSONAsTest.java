@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static uk.co.datumedge.hamcrest.json.SameJSONArrayAs.sameJSONArrayAs;
+import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONArrayAs;
 import static uk.co.datumedge.hamcrest.json.StringDescriptionAssert.assertThat;
 
 import org.hamcrest.StringDescription;
@@ -16,7 +16,7 @@ import org.json.JSONException;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class SameJSONArrayAsTest {
+public class SameJSONAsTest {
 	private static final String EXCEPTION_MESSAGE = "exception message";
 	private final JSONArray actual = new JSONArray("[13]");
 	private final JSONArray expected = new JSONArray("[42]");
@@ -24,7 +24,7 @@ public class SameJSONArrayAsTest {
 	@Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
 	@SuppressWarnings("unchecked") private final JSONComparator<JSONArray> jsonComparator = context.mock(JSONComparator.class);
 	
-	public SameJSONArrayAsTest() throws JSONException {
+	public SameJSONAsTest() throws JSONException {
 	}
 	
 	@Test public void matchesEmptyJSONArrays() {
@@ -43,7 +43,7 @@ public class SameJSONArrayAsTest {
 	
 	@Test public void appendsTextualComparisonToMismatchDescription() throws JSONException {
 		StringDescription mismatchDescription = new StringDescription();
-		SameJSONArrayAs matcher = new SameJSONArrayAs(new JSONArray("[194]"));
+		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(new JSONArray("[194]"), new JSONArrayAssertComparator());
 		matcher.matches(actual);
 		matcher.describeMismatch(actual, mismatchDescription);
 		assertThat(mismatchDescription, both(containsString("13")).and(containsString("194")));
@@ -59,10 +59,10 @@ public class SameJSONArrayAsTest {
 		allowingJSONComparatorToThrowJSONException();
 		
 		StringDescription mismatchDescription = new StringDescription();
-		SameJSONArrayAs matcher = new SameJSONArrayAs(expected, jsonComparator);
+		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(expected, jsonComparator);
 		matcher.matches(actual);
 		matcher.describeMismatch(actual, mismatchDescription);
-		assertThat(mismatchDescription, both(containsString(EXCEPTION_MESSAGE)).and(containsString(SameJSONArrayAs.class.getName())));
+		assertThat(mismatchDescription, both(containsString(EXCEPTION_MESSAGE)).and(containsString(SameJSONAs.class.getName())));
 	}
 	
 	@Test public void doesNotMatchWhenActualJSONHasExtraFields() throws JSONException {

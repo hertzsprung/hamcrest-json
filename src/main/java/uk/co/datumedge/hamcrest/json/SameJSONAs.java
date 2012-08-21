@@ -11,17 +11,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 /**
- * Matcher that asserts that one JSONArray is the same as another.
+ * Matcher that asserts that one JSON document is the same as another.
+ * 
+ * @param <T>
+ *            the type of the JSON document. This is typically {@code JSONObject}, {@code JSONArray} or {@code String}.
  */
-public final class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> {
-	private final JSONArray expected;
-	private JSONComparator<JSONArray> comparator;
+public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
+	private final T expected;
+	private JSONComparator<T> comparator;
 
-	public SameJSONArrayAs(JSONArray expected) {
-		this(expected, new JSONArrayAssertComparator());
-	}
-
-	public SameJSONArrayAs(JSONArray expected, JSONComparator<JSONArray> comparator) {
+	public SameJSONAs(T expected, JSONComparator<T> comparator) {
 		this.expected = expected;
 		this.comparator = comparator;
 	}
@@ -32,7 +31,7 @@ public final class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> 
 	}
 
 	@Override
-	protected boolean matchesSafely(JSONArray actual, Description mismatchDescription) {
+	protected boolean matchesSafely(T actual, Description mismatchDescription) {
 		try {
 			JSONComparisonResult result = comparator.compare(expected, actual);
 			if (result.failed()) {
@@ -49,11 +48,11 @@ public final class SameJSONArrayAs extends TypeSafeDiagnosingMatcher<JSONArray> 
 
 	@Factory
 	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected) {
-		return new SameJSONArrayAs(expected);
+		return new SameJSONAs<JSONArray>(expected, new JSONArrayAssertComparator());
 	}
 	
 	@Factory
 	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONComparator<JSONArray> jsonComparator) {
-		return new SameJSONArrayAs(expected, jsonComparator);
+		return new SameJSONAs<JSONArray>(expected, jsonComparator);
 	}
 }
