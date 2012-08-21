@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONArrayAs;
+import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONObjectAs;
 import static uk.co.datumedge.hamcrest.json.StringDescriptionAssert.assertThat;
 
 import org.hamcrest.StringDescription;
@@ -13,6 +14,7 @@ import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -67,6 +69,14 @@ public class SameJSONAsTest {
 	
 	@Test public void doesNotMatchWhenActualJSONHasExtraFields() throws JSONException {
 		assertThat(new JSONArray("[{'a':3, 'b':5}, 2]"), is(not(sameJSONArrayAs(new JSONArray("[{'a':3}, 2]")))));
+	}
+	
+	@Test public void matchesEmptyJSONObjects() {
+		assertThat(new JSONObject(), is(sameJSONObjectAs(new JSONObject())));
+	}
+	
+	@Test public void doesNotMatchOneEmptyAndOneNonEmptyJSONObject() throws JSONException {
+		assertThat(new JSONObject(), is(not(sameJSONObjectAs(new JSONObject("{\"foo\":3}")))));
 	}
 
 	private void allowingJSONComparatorToThrowJSONException() throws JSONException {

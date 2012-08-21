@@ -9,6 +9,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Matcher that asserts that one JSON document is the same as another.
@@ -46,6 +47,11 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 		}
 	}
 
+	@Factory
+	public static Matcher<? super JSONObject> sameJSONObjectAs(JSONObject expected) {
+		return new SameJSONAs(expected, new JSONObjectAssertComparator());
+	}
+	
 	@Factory
 	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected) {
 		return new SameJSONAs<JSONArray>(expected, new JSONArrayAssertComparator());

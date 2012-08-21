@@ -4,16 +4,16 @@ import static org.skyscreamer.jsonassert.JSONCompare.compareJSON;
 import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT;
 import static uk.co.datumedge.hamcrest.json.JSONAssertComparisonResult.resultOf;
 
-import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
- * A {@code JSONComparator} implementation that compares {@code JSONArray}s, backed by SkyScreamer's JSONAssert library.
+ * A {@code JSONComparator} implementation that compares {@code JSONObject}s, backed by SkyScreamer's JSONAssert library.
  */
-public final class JSONArrayAssertComparator implements JSONComparator<JSONArray> {
-	
+public class JSONObjectAssertComparator implements JSONComparator<JSONObject> {
+
 	@Override
-	public JSONComparisonResult compare(JSONArray expected, JSONArray actual) throws JSONException {
+	public JSONComparisonResult compare(JSONObject expected, JSONObject actual) throws JSONException {
 		return resultOf(compareJSON(expected, actual, STRICT));
 	}
 }
