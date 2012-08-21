@@ -49,7 +49,7 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 
 	@Factory
 	public static Matcher<? super JSONObject> sameJSONObjectAs(JSONObject expected) {
-		return new SameJSONAs(expected, new JSONObjectAssertComparator());
+		return new SameJSONAs<JSONObject>(expected, new JSONObjectAssertComparator());
 	}
 	
 	@Factory
