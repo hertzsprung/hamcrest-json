@@ -14,7 +14,7 @@ public final class JSONComparisonResult implements SelfDescribing {
 	private JSONComparisonResult() {
 		this.passed = true;
 		this.description = new SelfDescribing() {
-			@Override public void describeTo(Description description) {}
+			@Override public void describeTo(Description description) { }
 		};
 	}
 
@@ -49,7 +49,7 @@ public final class JSONComparisonResult implements SelfDescribing {
 			}
 		});
 	}
-	
+
 	static JSONComparisonResult comparisonFailed(final String field, final Object expected, final Object actual) {
 		return new JSONComparisonResult(new SelfDescribing() {
 			@Override

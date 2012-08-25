@@ -1,5 +1,10 @@
 package uk.co.datumedge.hamcrest.json;
 
+import static uk.co.datumedge.hamcrest.json.JSONArrayAssertComparator.actualJSONArraySameAsExpected;
+import static uk.co.datumedge.hamcrest.json.JSONArrayAssertComparator.actualJSONArraySuperSetOfExpected;
+import static uk.co.datumedge.hamcrest.json.JSONObjectAssertComparator.actualJSONObjectSameAsExpected;
+import static uk.co.datumedge.hamcrest.json.JSONObjectAssertComparator.actualJSONObjectSuperSetOfExpected;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -13,7 +18,7 @@ import org.json.JSONObject;
 
 /**
  * Matcher that asserts that one JSON document is the same as another.
- * 
+ *
  * @param <T>
  *            the type of the JSON document. This is typically {@code JSONObject}, {@code JSONArray} or {@code String}.
  */
@@ -46,19 +51,33 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 			return false;
 		}
 	}
+	
+	public Matcher<? super T> havingAnyArrayOrdering() {
+		return new SameJSONAs<T>(expected, comparator.butHavingAnyArrayOrdering());
+	}
 
 	@Factory
-	public static Matcher<? super JSONObject> sameJSONObjectAs(JSONObject expected) {
-		return new SameJSONAs<JSONObject>(expected, new JSONObjectAssertComparator());
+	public static SameJSONAs<JSONObject> sameJSONObjectAs(JSONObject expected) {
+		return new SameJSONAs<JSONObject>(expected, actualJSONObjectSameAsExpected());
 	}
 	
 	@Factory
-	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected) {
-		return new SameJSONAs<JSONArray>(expected, new JSONArrayAssertComparator());
+	public static SameJSONAs<JSONObject> containsJSONObject(JSONObject expected) {
+		return new SameJSONAs<JSONObject>(expected, actualJSONObjectSuperSetOfExpected());
 	}
-	
+
+	@Factory
+	public static SameJSONAs<JSONArray> sameJSONArrayAs(JSONArray expected) {
+		return new SameJSONAs<JSONArray>(expected, actualJSONArraySameAsExpected());
+	}
+
 	@Factory
 	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONComparator<JSONArray> jsonComparator) {
 		return new SameJSONAs<JSONArray>(expected, jsonComparator);
+	}
+	
+	@Factory
+	public static SameJSONAs<JSONArray> containsJSONArray(JSONArray expected) {
+		return new SameJSONAs<JSONArray>(expected, actualJSONArraySuperSetOfExpected());
 	}
 }

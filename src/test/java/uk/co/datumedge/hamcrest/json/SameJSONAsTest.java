@@ -5,6 +5,9 @@ import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static uk.co.datumedge.hamcrest.json.JSONArrayAssertComparator.actualJSONArraySameAsExpected;
+import static uk.co.datumedge.hamcrest.json.SameJSONAs.containsJSONArray;
+import static uk.co.datumedge.hamcrest.json.SameJSONAs.containsJSONObject;
 import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONArrayAs;
 import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONObjectAs;
 import static uk.co.datumedge.hamcrest.json.StringDescriptionAssert.assertThat;
@@ -45,7 +48,7 @@ public class SameJSONAsTest {
 	
 	@Test public void appendsTextualComparisonToMismatchDescription() throws JSONException {
 		StringDescription mismatchDescription = new StringDescription();
-		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(new JSONArray("[194]"), new JSONArrayAssertComparator());
+		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(new JSONArray("[194]"), actualJSONArraySameAsExpected());
 		matcher.matches(actual);
 		matcher.describeMismatch(actual, mismatchDescription);
 		assertThat(mismatchDescription, both(containsString("13")).and(containsString("194")));
@@ -71,12 +74,58 @@ public class SameJSONAsTest {
 		assertThat(new JSONArray("[{'a':3, 'b':5}, 2]"), is(not(sameJSONArrayAs(new JSONArray("[{'a':3}, 2]")))));
 	}
 	
+	@Test public void matchesWithAdditionalFieldsInActualJSONArray() throws JSONException {
+		assertThat(new JSONArray("[{\"foo\":6, \"bar\":1}, 2]"), SameJSONAs.containsJSONArray(new JSONArray("[{\"bar\":1}, 2]")));
+	}
+	
+	@Test public void matchesJSONArrayHavingElementsInAnyOrder() throws JSONException {
+		assertThat(new JSONArray("[1, 5, 2]"), sameJSONArrayAs(new JSONArray("[5, 2, 1]")).havingAnyArrayOrdering());
+	}
+	
+	@Test public void doesNotMatchJSONArrayHavingElementsInAnyOrderWithAdditionalFieldsInExpectedJSONObject() throws JSONException {
+		assertThat(
+				new JSONArray("[{\"b\":3, \"arr\":[1, 5, 2]}]"),
+				not(sameJSONArrayAs(new JSONArray("[{\"arr\":[5, 2, 1]}]")).havingAnyArrayOrdering()));
+	}
+	
+	@Test public void matchesJSONArrayWithAdditionalFieldsInExpectedJSONArrayHavingElementsInAnyOrder() throws JSONException {
+		assertThat(
+				new JSONArray("[{\"b\":3, \"arr\":[1, 5, 2]}]"),
+				containsJSONArray(new JSONArray("[{\"arr\":[5, 2, 1]}]")).havingAnyArrayOrdering());
+	}
+	
 	@Test public void matchesEmptyJSONObjects() {
 		assertThat(new JSONObject(), is(sameJSONObjectAs(new JSONObject())));
 	}
 	
 	@Test public void doesNotMatchOneEmptyAndOneNonEmptyJSONObject() throws JSONException {
 		assertThat(new JSONObject(), is(not(sameJSONObjectAs(new JSONObject("{\"foo\":3}")))));
+	}
+	
+	@Test public void matchesWithAdditionalFieldsInActualJSONObject() throws JSONException {
+		assertThat(new JSONObject("{\"a\":3,\"b\":7}"), containsJSONObject(new JSONObject("{\"b\":7}")));
+	}
+	
+	@Test public void doesNotMatchWithAdditionalFieldsInExpectedJSONObject() throws JSONException {
+		assertThat(new JSONObject("{\"b\":7}"), not(containsJSONObject(new JSONObject("{\"a\":3,\"b\":7}"))));
+	}
+	
+	@Test public void matchesJSONObjectHavingArrayElementsInAnyOrder() throws JSONException {
+		assertThat(
+				new JSONObject("{\"arr\":[1, 5, 2]}"),
+				sameJSONObjectAs(new JSONObject("{\"arr\":[5, 2, 1]}")).havingAnyArrayOrdering());
+	}
+	
+	@Test public void doesNotMatchJSONObjectHavingArrayElementsInAnyOrderWithAdditionalFieldsInExpectedJSONObject() throws JSONException {
+		assertThat(
+				new JSONObject("{\"b\":3, \"arr\":[1, 5, 2]}"),
+				not(sameJSONObjectAs(new JSONObject("{\"arr\":[5, 2, 1]}")).havingAnyArrayOrdering()));
+	}
+	
+	@Test public void matchesJSONObjectWithAdditionalFieldsInExpectedJSONObjectAndHavingArrayElementsInAnyOrder() throws JSONException {
+		assertThat(
+				new JSONObject("{\"b\":3, \"arr\":[1, 5, 2]}"),
+				containsJSONObject(new JSONObject("{\"arr\":[5, 2, 1]}")).havingAnyArrayOrdering());
 	}
 
 	private void allowingJSONComparatorToThrowJSONException() throws JSONException {
