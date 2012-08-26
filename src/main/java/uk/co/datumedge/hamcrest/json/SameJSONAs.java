@@ -89,9 +89,7 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
     { "name" : "Bob Jones" }
 ]</pre>
 	 *
-	 * @param expected
-	 *            the expected {@code JSONObject} instance
-	 * @return the {@code Matcher} instance
+	 * @return the configured matcher
 	 */
 	public SameJSONAs<T> allowingExtraUnexpectedFields() {
 		return new SameJSONAs<T>(expected, comparator.butAllowingExtraUnexpectedFields());
