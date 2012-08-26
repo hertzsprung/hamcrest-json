@@ -1,9 +1,7 @@
 package uk.co.datumedge.hamcrest.json;
 
 import static uk.co.datumedge.hamcrest.json.JSONArrayAssertComparator.actualJSONArraySameAsExpected;
-import static uk.co.datumedge.hamcrest.json.JSONArrayAssertComparator.actualJSONArraySuperSetOfExpected;
 import static uk.co.datumedge.hamcrest.json.JSONObjectAssertComparator.actualJSONObjectSameAsExpected;
-import static uk.co.datumedge.hamcrest.json.JSONObjectAssertComparator.actualJSONObjectSuperSetOfExpected;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -51,21 +49,71 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 			return false;
 		}
 	}
-	
-	public Matcher<? super T> havingAnyArrayOrdering() {
-		return new SameJSONAs<T>(expected, comparator.butHavingAnyArrayOrdering());
+
+	/**
+	 * Creates a matcher that allows any element ordering within JSON arrays. For example,
+	 * <code>{"fib":[0,1,1,2,3]}</code> will match <code>{"fib":[3,1,0,2,1]}</code>.
+	 *
+	 * @return the configured matcher
+	 */
+	public SameJSONAs<T> allowingAnyArrayOrdering() {
+		return new SameJSONAs<T>(expected, comparator.butAllowingAnyArrayOrdering());
 	}
 
+	/**
+	 * Creates a matcher that allows fields not present in the expected JSON document.  For example, if the expected
+	 * document is
+<pre>{
+    "name" : "John Smith",
+    "address" : {
+        "street" : "29 Acacia Road"
+    }
+}</pre>
+	 * then the following document will match:
+<pre>{
+    "name" : "John Smith",
+    "age" : 34,
+    "address" : {
+        "street" : "29 Acacia Road",
+        "city" : "Huddersfield"
+    }
+}</pre>
+	 *
+	 * All array elements must exist in both documents, so the expected document
+<pre>[
+    { "name" : "John Smith" }
+]</pre>
+	 *  will not match the actual document
+<pre>[
+    { "name" : "John Smith" },
+    { "name" : "Bob Jones" }
+]</pre>
+	 *
+	 * @param expected
+	 *            the expected {@code JSONObject} instance
+	 * @return the {@code Matcher} instance
+	 */
+	public SameJSONAs<T> allowingExtraUnexpectedFields() {
+		return new SameJSONAs<T>(expected, comparator.butAllowingExtraUnexpectedFields());
+	}
+
+	/**
+	 * Creates a matcher that compares {@code JSONObject}s.
+	 *
+	 * @param expected the expected {@code JSONObject} instance
+	 * @return the {@code Matcher} instance
+	 */
 	@Factory
 	public static SameJSONAs<JSONObject> sameJSONObjectAs(JSONObject expected) {
 		return new SameJSONAs<JSONObject>(expected, actualJSONObjectSameAsExpected());
 	}
-	
-	@Factory
-	public static SameJSONAs<JSONObject> containsJSONObject(JSONObject expected) {
-		return new SameJSONAs<JSONObject>(expected, actualJSONObjectSuperSetOfExpected());
-	}
 
+	/**
+	 * Creates a matcher that compares {@code JSONArray}s.
+	 *
+	 * @param expected the expected {@code JSONArray} instance
+	 * @return the {@code Matcher} instance
+	 */
 	@Factory
 	public static SameJSONAs<JSONArray> sameJSONArrayAs(JSONArray expected) {
 		return new SameJSONAs<JSONArray>(expected, actualJSONArraySameAsExpected());
@@ -74,10 +122,5 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	@Factory
 	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONComparator<JSONArray> jsonComparator) {
 		return new SameJSONAs<JSONArray>(expected, jsonComparator);
-	}
-	
-	@Factory
-	public static SameJSONAs<JSONArray> containsJSONArray(JSONArray expected) {
-		return new SameJSONAs<JSONArray>(expected, actualJSONArraySuperSetOfExpected());
 	}
 }

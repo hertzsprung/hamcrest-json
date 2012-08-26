@@ -14,5 +14,7 @@ public interface JSONComparator<T> {
 	 * @return a {@code JSONComparator} instance that is equivalent to this, but does not check the ordering of array
 	 *         elements
 	 */
-	JSONComparator<T> butHavingAnyArrayOrdering();
+	JSONComparator<T> butAllowingAnyArrayOrdering();
+
+	JSONComparator<T> butAllowingExtraUnexpectedFields();
 }

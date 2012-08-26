@@ -14,11 +14,11 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
  */
 public final class JSONObjectAssertComparator implements JSONComparator<JSONObject> {
 	private final JSONCompareMode compareMode;
-	
+
 	public static JSONComparator<JSONObject> actualJSONObjectSameAsExpected() {
 		return new JSONObjectAssertComparator(STRICT);
 	}
-	
+
 	public static JSONComparator<JSONObject> actualJSONObjectSuperSetOfExpected() {
 		return new JSONObjectAssertComparator(STRICT_ORDER);
 	}
@@ -26,14 +26,19 @@ public final class JSONObjectAssertComparator implements JSONComparator<JSONObje
 	private JSONObjectAssertComparator(JSONCompareMode compareMode) {
 		this.compareMode = compareMode;
 	}
-	
+
 	@Override
 	public JSONComparisonResult compare(JSONObject expected, JSONObject actual) throws JSONException {
 		return resultOf(compareJSON(expected, actual, compareMode));
 	}
 
 	@Override
-	public JSONComparator<JSONObject> butHavingAnyArrayOrdering() {
+	public JSONComparator<JSONObject> butAllowingAnyArrayOrdering() {
 		return new JSONObjectAssertComparator(compareMode.butNotStrict());
+	}
+
+	@Override
+	public JSONComparator<JSONObject> butAllowingExtraUnexpectedFields() {
+		return new JSONObjectAssertComparator(compareMode.withExtensibility());
 	}
 }
