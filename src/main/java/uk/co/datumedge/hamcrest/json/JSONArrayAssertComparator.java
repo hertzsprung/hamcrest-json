@@ -34,11 +34,11 @@ public final class JSONArrayAssertComparator implements JSONComparator<JSONArray
 
 	@Override
 	public JSONComparator<JSONArray> butAllowingAnyArrayOrdering() {
-		return new JSONArrayAssertComparator(compareMode.butNotStrict());
+		return new JSONArrayAssertComparator(compareMode.withStrictOrdering(false));
 	}
 
 	@Override
 	public JSONComparator<JSONArray> butAllowingExtraUnexpectedFields() {
-		return new JSONArrayAssertComparator(compareMode.withExtensibility());
+		return new JSONArrayAssertComparator(compareMode.withExtensible(true));
 	}
 }

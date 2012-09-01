@@ -34,11 +34,11 @@ public final class JSONObjectAssertComparator implements JSONComparator<JSONObje
 
 	@Override
 	public JSONComparator<JSONObject> butAllowingAnyArrayOrdering() {
-		return new JSONObjectAssertComparator(compareMode.butNotStrict());
+		return new JSONObjectAssertComparator(compareMode.withStrictOrdering(false));
 	}
 
 	@Override
 	public JSONComparator<JSONObject> butAllowingExtraUnexpectedFields() {
-		return new JSONObjectAssertComparator(compareMode.withExtensibility());
+		return new JSONObjectAssertComparator(compareMode.withExtensible(true));
 	}
 }
