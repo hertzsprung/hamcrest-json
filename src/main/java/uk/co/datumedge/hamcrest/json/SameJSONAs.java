@@ -121,4 +121,9 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONComparator<JSONArray> jsonComparator) {
 		return new SameJSONAs<JSONArray>(expected, jsonComparator);
 	}
+
+	@Factory
+	public static Matcher<? super String> sameJSONAs(String expected) {
+		return new SameJSONAs<String>(expected, StringComparator.actualSameAsExpected());
+	}
 }

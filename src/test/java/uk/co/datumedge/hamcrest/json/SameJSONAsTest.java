@@ -129,6 +129,10 @@ public class SameJSONAsTest {
 					.allowingExtraUnexpectedFields()
 					.allowingAnyArrayOrdering());
 	}
+	
+	@Test public void matchesJSONObjectsAsStrings() {
+		assertThat("{\"foo\": 5}", SameJSONAs.sameJSONAs("{\"foo\": 5}"));
+	}
 
 	private void allowingJSONComparatorToThrowJSONException() throws JSONException {
 		context.checking(new Expectations() {{
