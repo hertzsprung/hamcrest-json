@@ -2,7 +2,6 @@ package uk.co.datumedge.hamcrest.json;
 
 import static org.skyscreamer.jsonassert.JSONCompare.compareJSON;
 import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT;
-import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT_ORDER;
 import static uk.co.datumedge.hamcrest.json.JSONAssertComparisonResult.resultOf;
 
 import org.json.JSONException;
@@ -17,10 +16,6 @@ public final class JSONObjectAssertComparator implements JSONComparator<JSONObje
 
 	public static JSONComparator<JSONObject> actualJSONObjectSameAsExpected() {
 		return new JSONObjectAssertComparator(STRICT);
-	}
-
-	public static JSONComparator<JSONObject> actualJSONObjectSuperSetOfExpected() {
-		return new JSONObjectAssertComparator(STRICT_ORDER);
 	}
 
 	private JSONObjectAssertComparator(JSONCompareMode compareMode) {
