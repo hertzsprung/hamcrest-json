@@ -12,9 +12,15 @@ Installing from Maven Central
     </dependency>
 
 
-Installing from source
------------------------------
-    mvn install
+Usage
+=====
+```java
+assertThat(
+	"{\"age\":43, \"friend_ids\":[16, 52, 23]}",
+	sameJSONAs("{\"friend_ids\":[52, 23, 16]}")
+		.allowingExtraUnexpectedFields()
+		.allowingAnyArrayOrdering());
+```
 
 Resources
 =========
