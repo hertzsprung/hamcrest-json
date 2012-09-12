@@ -7,8 +7,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static uk.co.datumedge.hamcrest.json.JSONArrayComparatorFactory.jsonArrayComparison;
 import static uk.co.datumedge.hamcrest.json.JSONAssertComparator.modalComparatorFor;
+import static uk.co.datumedge.hamcrest.json.JSONObjectComparatorFactory.jsonObjectComparison;
 import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONArrayAs;
+import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONAs;
 import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONObjectAs;
+import static uk.co.datumedge.hamcrest.json.StringComparatorFactory.stringComparison;
 import static uk.co.datumedge.hamcrest.json.StringDescriptionAssert.assertThat;
 
 import org.hamcrest.StringDescription;
@@ -96,9 +99,9 @@ public class SameJSONAsTest {
 	}
 	
 	@Test public void matchesEmptyJSONObjects() {
-		assertThat(new JSONObject(), is(sameJSONObjectAs(new JSONObject())));
+		assertThat(new JSONObject(), is(sameJSONObjectAs(new JSONObject(), modalComparatorFor(jsonObjectComparison()))));
 	}
-	
+
 	@Test public void doesNotMatchOneEmptyAndOneNonEmptyJSONObject() throws JSONException {
 		assertThat(new JSONObject(), is(not(sameJSONObjectAs(new JSONObject("{\"foo\":3}")))));
 	}
@@ -132,7 +135,11 @@ public class SameJSONAsTest {
 	}
 	
 	@Test public void matchesJSONObjectsAsStrings() {
-		assertThat("{\"foo\": 5}", SameJSONAs.sameJSONAs("{\"foo\": 5}"));
+		assertThat("{\"foo\": 5}", sameJSONAs("{\"foo\": 5}", modalComparatorFor(stringComparison())));
+	}
+
+	@Test public void doesNotMatchJSONArrayAndJSONObject() {
+		assertThat("{\"foo\": 5}", not(sameJSONAs("[5, 2]")));
 	}
 
 	private void allowingJSONComparatorToThrowJSONException() throws JSONException {

@@ -10,7 +10,6 @@ import java.io.StringWriter;
 
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,6 +107,11 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 		return new SameJSONAs<JSONObject>(expected, modalComparatorFor(jsonObjectComparison()));
 	}
 
+	@Factory
+	public static SameJSONAs<JSONObject> sameJSONObjectAs(JSONObject expected, JSONModalComparator<JSONObject> comparator) {
+		return new SameJSONAs<JSONObject>(expected, comparator);
+	}
+
 	/**
 	 * Creates a matcher that compares {@code JSONArray}s.
 	 *
@@ -120,12 +124,23 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	}
 
 	@Factory
-	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONModalComparator<JSONArray> comparator) {
+	public static SameJSONAs<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONModalComparator<JSONArray> comparator) {
 		return new SameJSONAs<JSONArray>(expected, comparator);
 	}
 
+	/**
+	 * Creates a matcher that compares JSONObjects or JSONArrays.
+	 *
+	 * @param expected the expected JSON document
+	 * @return the {@code Matcher} instance
+	 */
 	@Factory
-	public static Matcher<? super String> sameJSONAs(String expected) {
+	public static SameJSONAs<? super String> sameJSONAs(String expected) {
 		return new SameJSONAs<String>(expected, modalComparatorFor(stringComparison()));
+	}
+	
+	@Factory
+	public static SameJSONAs<? super String> sameJSONAs(String expected, JSONModalComparator<String> comparator) {
+		return new SameJSONAs<String>(expected, comparator);
 	}
 }
