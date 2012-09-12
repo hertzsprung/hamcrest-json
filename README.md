@@ -3,14 +3,15 @@ Hamcrest matchers for comparing JSON documents, backed by the [JSONassert librar
 Installation
 ============
 
-Installing from Maven Central
------------------------------
-    <dependency>
-    	<groupId>uk.co.datumedge</groupId>
-    	<artifactId>hamcrest-json</artifactId>
-    	<version>0.1</version>
-    </dependency>
+To install from Maven Central:
 
+```xml
+<dependency>
+	<groupId>uk.co.datumedge</groupId>
+	<artifactId>hamcrest-json</artifactId>
+	<version>0.1</version>
+</dependency>
+```
 
 Usage
 =====
