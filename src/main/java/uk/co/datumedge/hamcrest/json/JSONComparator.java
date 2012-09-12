@@ -9,12 +9,4 @@ import org.json.JSONException;
  */
 public interface JSONComparator<T> {
 	JSONComparisonResult compare(T expected, T actual) throws JSONException;
-
-	/**
-	 * @return a {@code JSONComparator} instance that is equivalent to this, but does not check the ordering of array
-	 *         elements
-	 */
-	JSONComparator<T> butAllowingAnyArrayOrdering();
-
-	JSONComparator<T> butAllowingExtraUnexpectedFields();
 }

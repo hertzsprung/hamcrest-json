@@ -1,7 +1,9 @@
 package uk.co.datumedge.hamcrest.json;
 
-import static uk.co.datumedge.hamcrest.json.JSONArrayAssertComparator.actualJSONArraySameAsExpected;
-import static uk.co.datumedge.hamcrest.json.JSONObjectAssertComparator.actualJSONObjectSameAsExpected;
+import static uk.co.datumedge.hamcrest.json.JSONArrayComparatorFactory.jsonArrayComparison;
+import static uk.co.datumedge.hamcrest.json.JSONAssertComparator.modalComparatorFor;
+import static uk.co.datumedge.hamcrest.json.JSONObjectComparatorFactory.jsonObjectComparison;
+import static uk.co.datumedge.hamcrest.json.StringComparatorFactory.stringComparison;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -22,9 +24,9 @@ import org.json.JSONObject;
  */
 public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	private final T expected;
-	private final JSONComparator<T> comparator;
+	private final JSONModalComparator<T> comparator;
 
-	public SameJSONAs(T expected, JSONComparator<T> comparator) {
+	public SameJSONAs(T expected, JSONModalComparator<T> comparator) {
 		this.expected = expected;
 		this.comparator = comparator;
 	}
@@ -103,7 +105,7 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 */
 	@Factory
 	public static SameJSONAs<JSONObject> sameJSONObjectAs(JSONObject expected) {
-		return new SameJSONAs<JSONObject>(expected, actualJSONObjectSameAsExpected());
+		return new SameJSONAs<JSONObject>(expected, modalComparatorFor(jsonObjectComparison()));
 	}
 
 	/**
@@ -114,16 +116,16 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 */
 	@Factory
 	public static SameJSONAs<JSONArray> sameJSONArrayAs(JSONArray expected) {
-		return new SameJSONAs<JSONArray>(expected, actualJSONArraySameAsExpected());
+		return new SameJSONAs<JSONArray>(expected, modalComparatorFor(jsonArrayComparison()));
 	}
 
 	@Factory
-	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONComparator<JSONArray> jsonComparator) {
-		return new SameJSONAs<JSONArray>(expected, jsonComparator);
+	public static Matcher<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONModalComparator<JSONArray> comparator) {
+		return new SameJSONAs<JSONArray>(expected, comparator);
 	}
 
 	@Factory
 	public static Matcher<? super String> sameJSONAs(String expected) {
-		return new SameJSONAs<String>(expected, StringComparator.actualSameAsExpected());
+		return new SameJSONAs<String>(expected, modalComparatorFor(stringComparison()));
 	}
 }

@@ -5,7 +5,8 @@ import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static uk.co.datumedge.hamcrest.json.JSONArrayAssertComparator.actualJSONArraySameAsExpected;
+import static uk.co.datumedge.hamcrest.json.JSONArrayComparatorFactory.jsonArrayComparison;
+import static uk.co.datumedge.hamcrest.json.JSONAssertComparator.modalComparatorFor;
 import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONArrayAs;
 import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONObjectAs;
 import static uk.co.datumedge.hamcrest.json.StringDescriptionAssert.assertThat;
@@ -25,7 +26,7 @@ public class SameJSONAsTest {
 	private final JSONArray expected = new JSONArray("[42]");
 	
 	@Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
-	@SuppressWarnings("unchecked") private final JSONComparator<JSONArray> jsonComparator = context.mock(JSONComparator.class);
+	@SuppressWarnings("unchecked") private final JSONModalComparator<JSONArray> jsonComparator = context.mock(JSONModalComparator.class);
 	
 	public SameJSONAsTest() throws JSONException {
 	}
@@ -46,7 +47,7 @@ public class SameJSONAsTest {
 	
 	@Test public void appendsTextualComparisonToMismatchDescription() throws JSONException {
 		StringDescription mismatchDescription = new StringDescription();
-		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(new JSONArray("[194]"), actualJSONArraySameAsExpected());
+		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(new JSONArray("[194]"), modalComparatorFor(jsonArrayComparison()));
 		matcher.matches(actual);
 		matcher.describeMismatch(actual, mismatchDescription);
 		assertThat(mismatchDescription, both(containsString("13")).and(containsString("194")));

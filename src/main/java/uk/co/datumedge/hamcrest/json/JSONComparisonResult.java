@@ -23,7 +23,6 @@ public final class JSONComparisonResult implements SelfDescribing {
 		this.description = description;
 	}
 
-
 	@Override
 	public void describeTo(Description description) {
 		description.appendDescriptionOf(this.description);
