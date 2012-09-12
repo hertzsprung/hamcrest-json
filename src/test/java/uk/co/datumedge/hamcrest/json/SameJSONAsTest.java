@@ -25,8 +25,8 @@ import org.junit.Test;
 
 public class SameJSONAsTest {
 	private static final String EXCEPTION_MESSAGE = "exception message";
-	private final JSONArray actual = new JSONArray("[13]");
-	private final JSONArray expected = new JSONArray("[42]");
+	private final JSONArray actual = new JSONArray("[13, 85]");
+	private final JSONArray expected = new JSONArray("[42, 63]");
 	
 	@Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
 	@SuppressWarnings("unchecked") private final JSONModalComparator<JSONArray> jsonComparator = context.mock(JSONModalComparator.class);
@@ -50,10 +50,12 @@ public class SameJSONAsTest {
 	
 	@Test public void appendsTextualComparisonToMismatchDescription() throws JSONException {
 		StringDescription mismatchDescription = new StringDescription();
-		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(new JSONArray("[194]"), modalComparatorFor(jsonArrayComparison()));
+		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(expected, modalComparatorFor(jsonArrayComparison()));
 		matcher.matches(actual);
 		matcher.describeMismatch(actual, mismatchDescription);
-		assertThat(mismatchDescription, both(containsString("13")).and(containsString("194")));
+		assertThat(mismatchDescription, both(
+				containsString("13")).and(containsString("42"))
+				.and(containsString("85")).and(containsString("63")));
 	}
 	
 	@Test public void doesNotMatchWhenJSONExceptionIsCaught() throws JSONException {

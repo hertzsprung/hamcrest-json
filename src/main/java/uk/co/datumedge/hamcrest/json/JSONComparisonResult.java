@@ -18,7 +18,7 @@ public final class JSONComparisonResult implements SelfDescribing {
 		};
 	}
 
-	private JSONComparisonResult(SelfDescribing description) {
+	public JSONComparisonResult(SelfDescribing description) {
 		this.passed = false;
 		this.description = description;
 	}
@@ -45,19 +45,6 @@ public final class JSONComparisonResult implements SelfDescribing {
 			@Override
 			public void describeTo(Description description) {
 				description.appendText(message).toString();
-			}
-		});
-	}
-
-	static JSONComparisonResult comparisonFailed(final String field, final Object expected, final Object actual) {
-		return new JSONComparisonResult(new SelfDescribing() {
-			@Override
-			public void describeTo(Description description) {
-				description
-					.appendText("was ").appendValue(actual)
-					.appendText(" instead of ").appendValue(expected)
-					.appendText(" at ").appendText(field)
-					.toString();
 			}
 		});
 	}
