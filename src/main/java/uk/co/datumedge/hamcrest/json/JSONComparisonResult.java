@@ -39,13 +39,4 @@ public final class JSONComparisonResult implements SelfDescribing {
 	static JSONComparisonResult comparisonPassed() {
 		return PASSED;
 	}
-
-	static JSONComparisonResult comparisonFailed(final String message) {
-		return new JSONComparisonResult(new SelfDescribing() {
-			@Override
-			public void describeTo(Description description) {
-				description.appendText(message).toString();
-			}
-		});
-	}
 }
