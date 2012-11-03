@@ -24,12 +24,6 @@ final class JSONAssertComparisonResult {
 			public void describeTo(Description description) {
 				boolean first = true;
 
-				for (String field : result.getMissingFields()) {
-					if (!first) description.appendText(" and ");
-					description.appendText("missing field ").appendText(field);
-					first = false;
-				}
-
 				for (FieldComparisonFailure failure : result.getFieldFailures()) {
 					if (!first) description.appendText(" and ");
 					description
@@ -39,7 +33,7 @@ final class JSONAssertComparisonResult {
 					first = false;
 				}
 
-				if (result.getFieldFailures().isEmpty() && result.getMissingFields().isEmpty()) {
+				if (result.getFieldFailures().isEmpty()) {
 					description.appendText(result.getMessage());
 				}
 			}
