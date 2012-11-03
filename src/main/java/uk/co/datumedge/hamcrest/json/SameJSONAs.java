@@ -129,7 +129,7 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	}
 
 	/**
-	 * Creates a matcher that compares JSONObjects or JSONArrays.
+	 * Creates a matcher that compares {@code JSONObject}s or {@code JSONArray}s represented as {@code String}s.
 	 *
 	 * @param expected the expected JSON document
 	 * @return the {@code Matcher} instance
