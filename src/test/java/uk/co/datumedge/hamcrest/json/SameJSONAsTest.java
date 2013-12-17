@@ -155,6 +155,14 @@ public class SameJSONAsTest {
 		assertThat("{\"foo\": 5}", not(sameJSONAs("[5, 2]")));
 	}
 
+  @Test public void stringMatches() {
+    assertThat("\"Joe\"", is(sameJSONAs("\"Joe\"")));
+  }
+
+  @Test public void numberMatches() {
+    assertThat("-12.34e-2", is(sameJSONAs("-12.34e-2")));
+  }
+
 	private void allowingJSONComparatorToThrowJSONException() throws JSONException {
 		context.checking(new Expectations() {{
 			allowing(jsonComparator).compare(expected, actual); will(throwException(new JSONException(EXCEPTION_MESSAGE)));
