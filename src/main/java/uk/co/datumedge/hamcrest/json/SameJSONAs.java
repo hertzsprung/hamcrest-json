@@ -1,12 +1,17 @@
 package uk.co.datumedge.hamcrest.json;
 
 import static uk.co.datumedge.hamcrest.json.JSONArrayComparatorFactory.jsonArrayComparison;
+import static uk.co.datumedge.hamcrest.json.JSONArrayMungingCaptor.jsonArrayMungingCaptor;
 import static uk.co.datumedge.hamcrest.json.JSONAssertComparator.modalComparatorFor;
 import static uk.co.datumedge.hamcrest.json.JSONObjectComparatorFactory.jsonObjectComparison;
+import static uk.co.datumedge.hamcrest.json.JSONObjectMungingCaptor.jsonObjectMungingCaptor;
 import static uk.co.datumedge.hamcrest.json.StringComparatorFactory.stringComparison;
+import static uk.co.datumedge.hamcrest.json.StringMungingCaptor.stringMungingCaptor;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
@@ -21,9 +26,10 @@ import org.json.JSONObject;
  * @param <T>
  *            the type of the JSON document. This is typically {@code JSONObject}, {@code JSONArray} or {@code String}.
  */
-public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
+public class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	private final T expected;
 	private final JSONModalComparator<T> comparator;
+  private JSONMungingCaptor<T> captor = new NoOpMungingCaptor<T>();
 
 	public SameJSONAs(T expected, JSONModalComparator<T> comparator) {
 		this.expected = expected;
@@ -38,11 +44,16 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	@Override
 	protected boolean matchesSafely(T actual, Description mismatchDescription) {
 		try {
-			JSONComparisonResult result = comparator.compare(expected, actual);
+			JSONComparisonResult result = comparator.compare(
+          captor.munge(expected, actual, captor.getCaptured()),
+          actual);
 			if (result.failed()) {
 				mismatchDescription.appendDescriptionOf(result);
 			}
 			return result.passed();
+    } catch (CaptureException e) {
+      mismatchDescription.appendText(e.getMessage());
+      return false;
 		} catch (JSONException e) {
 			StringWriter out = new StringWriter();
 			e.printStackTrace(new PrintWriter(out));
@@ -58,8 +69,9 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @return the configured matcher
 	 */
 	public SameJSONAs<T> allowingAnyArrayOrdering() {
-		return new SameJSONAs<T>(expected, comparator.butAllowingAnyArrayOrdering());
-	}
+		return new SameJSONAs<T>(expected, comparator.butAllowingAnyArrayOrdering())
+        .capturingTo(getCaptured());
+  }
 
 	/**
 	 * Creates a matcher that allows fields not present in the expected JSON document.  For example, if the expected
@@ -93,8 +105,43 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @return the configured matcher
 	 */
 	public SameJSONAs<T> allowingExtraUnexpectedFields() {
-		return new SameJSONAs<T>(expected, comparator.butAllowingExtraUnexpectedFields());
+		return new SameJSONAs<T>(expected, comparator.butAllowingExtraUnexpectedFields())
+        .capturingTo(getCaptured());
 	}
+
+  /**
+   * @return a map of captured keys and values if capturing has been enabled
+   */
+  public Map<String, Object> getCaptured() {
+    return captor.getCaptured();
+  }
+
+  JSONMungingCaptor<T> captorFor(Class clazz, Map<String, Object> captured) {
+    if (expected instanceof JSONObject) {
+      return (JSONMungingCaptor<T>) jsonObjectMungingCaptor(captured);
+    } else if (expected instanceof JSONArray) {
+      return (JSONMungingCaptor<T>) jsonArrayMungingCaptor(captured);
+    } else {
+      return (JSONMungingCaptor<T>) stringMungingCaptor(captured);
+    }
+  }
+
+  /**
+   * Enable capturing to a new Map.
+   * @return this matcher enabled
+   */
+  public SameJSONAs<T> capturing() {
+    return capturingTo(new HashMap<String, Object>());
+  }
+
+  /**
+   * Enable capturing to the supplied Map.
+   * @return this matcher enabled
+   */
+  public SameJSONAs<T> capturingTo(final Map<String, Object> captured) {
+    captor = captorFor(expected.getClass(), captured);
+    return this;
+  }
 
 	/**
 	 * Creates a matcher that compares {@code JSONObject}s.

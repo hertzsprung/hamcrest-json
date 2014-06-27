@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNull;
 import static uk.co.datumedge.hamcrest.json.JSONArrayComparatorFactory.jsonArrayComparison;
 import static uk.co.datumedge.hamcrest.json.JSONAssertComparator.modalComparatorFor;
 import static uk.co.datumedge.hamcrest.json.JSONObjectComparatorFactory.jsonObjectComparison;
-import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONAs;
 import static uk.co.datumedge.hamcrest.json.SameJSONAsCapturing.sameJSONArrayAsCapturing;
 import static uk.co.datumedge.hamcrest.json.SameJSONAsCapturing.sameJSONAsCapturing;
 import static uk.co.datumedge.hamcrest.json.SameJSONAsCapturing.sameJSONObjectAsCapturing;

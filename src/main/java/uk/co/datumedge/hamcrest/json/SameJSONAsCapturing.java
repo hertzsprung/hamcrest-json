@@ -84,11 +84,11 @@ public final class SameJSONAsCapturing<T> extends TypeSafeDiagnosingMatcher<T> {
       mismatchDescription.appendText(e.getMessage());
       return false;
     } catch (JSONException e) {
-			StringWriter out = new StringWriter();
-			e.printStackTrace(new PrintWriter(out));
+      StringWriter out = new StringWriter();
+      e.printStackTrace(new PrintWriter(out));
       mismatchDescription.appendText(out.toString());
       return false;
-		}
+    }
 	}
 
   private static Set<String> getKeys(JSONObject jsonObject) {
@@ -102,7 +102,7 @@ public final class SameJSONAsCapturing<T> extends TypeSafeDiagnosingMatcher<T> {
 
   private static String matchReplaceAndCapture(
       final String expectedStr, final String actualStr, final Map<String, Object> captured)
-      throws JSONException {
+      throws JSONException, CaptureException {
     Object expected = JSONParser.parseJSON(expectedStr.replaceAll(CAPTURE_VAR_SYNTAX, CAPTURE_VAR_SYNTAX_ESCAPED));
     Object actual = JSONParser.parseJSON(actualStr.replaceAll(CAPTURE_VAR_SYNTAX, CAPTURE_VAR_SYNTAX_ESCAPED));
     if (expected instanceof JSONObject) {
@@ -120,7 +120,7 @@ public final class SameJSONAsCapturing<T> extends TypeSafeDiagnosingMatcher<T> {
 
   private static JSONObject matchReplaceAndCaptureJSONObject(
       final JSONObject expected, final JSONObject actual, final Map<String, Object> captured)
-      throws JSONException {
+      throws JSONException, CaptureException {
     Set<String> expectedKeys = getKeys(expected);
     for (String expectedKey : expectedKeys) {
       Object expectedValue = expected.get(expectedKey);
@@ -154,7 +154,7 @@ public final class SameJSONAsCapturing<T> extends TypeSafeDiagnosingMatcher<T> {
 
   private static JSONArray matchReplaceAndCaptureJSONArray(
       final JSONArray expected, final JSONArray actual, final Map<String, Object> captured)
-      throws JSONException {
+      throws JSONException, CaptureException {
     for (int i = 0; i < expected.length(); i++) {
       Object expectedValue = expected.get(i);
       Object actualValue = actual.get(i);
@@ -210,7 +210,7 @@ public final class SameJSONAsCapturing<T> extends TypeSafeDiagnosingMatcher<T> {
 
   private static Number capture(String expectedValue,
                                 final Number actualValue,
-                                final Map<String, Object> captured) {
+                                final Map<String, Object> captured) throws CaptureException {
     List<String> capturedKeys = captureVarNames(expectedValue);
     if (capturedKeys.size() != 1) {
       throw new CaptureException("Only one capture key per Number:" + capturedKeys.toString());
@@ -221,7 +221,7 @@ public final class SameJSONAsCapturing<T> extends TypeSafeDiagnosingMatcher<T> {
 
   private static Boolean capture(String expectedValue,
                                  final Boolean actualValue,
-                                 final Map<String, Object> captured) {
+                                 final Map<String, Object> captured) throws CaptureException {
     List<String> capturedKeys = captureVarNames(expectedValue);
     if (capturedKeys.size() != 1) {
       throw new CaptureException("Only one capture key per Boolean:" + capturedKeys.toString());
@@ -231,7 +231,7 @@ public final class SameJSONAsCapturing<T> extends TypeSafeDiagnosingMatcher<T> {
   }
 
   private static void captureNull(String expectedValue,
-                                 final Map<String, Object> captured) {
+                                 final Map<String, Object> captured) throws CaptureException {
     List<String> capturedKeys = captureVarNames(expectedValue);
     if (capturedKeys.size() != 1) {
       throw new CaptureException("Only one capture key per Null:" + capturedKeys.toString());

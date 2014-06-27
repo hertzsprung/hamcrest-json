@@ -24,13 +24,14 @@ assertThat(
 
 Map<String, Object> captured = new HashMap<String, Object>();
 assertThat(
-  "{\"id\": 445, \"age\":53, \"gender\":\"M\", \"friend_ids\":[16, 52, 23]}",
-  sameJSONAsCapturing("{\"age\": +{age}, \"gender\": +{gender}, \"friend_ids\":[52, 23, 16]}", captured)
-		.allowingExtraUnexpectedFields()
-		.allowingAnyArrayOrdering());
+    "{\"id\": 445, \"age\":53, \"gender\":\"M\", \"friend_ids\":[16, 52, 23]}",
+  sameJSONAs(
+    "{\"age\": +{age}, \"gender\": +{gender}, \"friend_ids\":[52, 23, 16]}")
+		  .allowingExtraUnexpectedFields()
+      .capturingTo(captured)
+	  	.allowingAnyArrayOrdering());
 assertThat(53, is(captured.get("age")));
 assertThat("M", is(captured.get("gender")));
-
 ```
 
 Resources
