@@ -7,7 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>hamcrest-json</artifactId>
-	<version>0.3-FUTURE-1</version>
+	<version>0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<prerequisites>
@@ -47,7 +47,7 @@
 	</dependencies>
 	
 	<name>Hamcrest JSON</name>
-	<description>Hamcrest JSON matchers</description>
+	<description>Hamcrest JSON matchers with capture.</description>
 	<url>https://github.com/hertzsprung/hamcrest-json</url>
 	<inceptionYear>2012</inceptionYear>
 	
