@@ -5,7 +5,7 @@ import org.json.JSONException;
 import java.util.Map;
 
 /**
- * @author timp
+ * @author timp21337
  * @since 2014-06-27
  */
 public final class StringMungingCaptor

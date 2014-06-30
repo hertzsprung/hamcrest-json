@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author timp
+ * @author timp21337
  * @since 2014-06-27
  *
  * @param <T> Either JSONObject, JSONArray or String

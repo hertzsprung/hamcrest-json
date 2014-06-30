@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @param <T> the document type, typically {@code JSONObject} or {@code JSONArray}.
  *
- * @author timp
+ * @author timp21337
  * @since 2014-06-26
  */
 public interface JSONMungingCaptor<T> {
