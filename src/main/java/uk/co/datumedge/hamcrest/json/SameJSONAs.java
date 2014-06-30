@@ -45,15 +45,15 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	protected boolean matchesSafely(T actual, Description mismatchDescription) {
 		try {
 			JSONComparisonResult result = comparator.compare(
-          captor.munge(expected, actual, captor.getCaptured()),
-          actual);
+					captor.munge(expected, actual, captor.getCaptured()),
+					actual);
 			if (result.failed()) {
 				mismatchDescription.appendDescriptionOf(result);
 			}
 			return result.passed();
-    } catch (CaptureException e) {
-      mismatchDescription.appendText(e.getMessage());
-      return false;
+		} catch (CaptureException e) {
+			mismatchDescription.appendText(e.getMessage());
+			return false;
 		} catch (JSONException e) {
 			StringWriter out = new StringWriter();
 			e.printStackTrace(new PrintWriter(out));
@@ -69,8 +69,9 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @return the configured matcher
 	 */
 	public SameJSONAs<T> allowingAnyArrayOrdering() {
-		return new SameJSONAs<T>(expected, comparator.butAllowingAnyArrayOrdering())
-        .capturingTo(getCaptured());
+		return new SameJSONAs<T>(expected, comparator
+				.butAllowingAnyArrayOrdering())
+				.capturingTo(getCaptured());
   }
 
 	/**
@@ -105,8 +106,9 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @return the configured matcher
 	 */
 	public SameJSONAs<T> allowingExtraUnexpectedFields() {
-		return new SameJSONAs<T>(expected, comparator.butAllowingExtraUnexpectedFields())
-        .capturingTo(getCaptured());
+		return new SameJSONAs<T>(expected, comparator
+				.butAllowingExtraUnexpectedFields())
+				.capturingTo(getCaptured());
 	}
 
   /**
