@@ -10,7 +10,7 @@ To install from Maven Central:
 <dependency>
 	<groupId>uk.co.datumedge</groupId>
 	<artifactId>hamcrest-json</artifactId>
-	<version>0.2</version>
+	<version>0.3</version>
 </dependency>
 ```
 
