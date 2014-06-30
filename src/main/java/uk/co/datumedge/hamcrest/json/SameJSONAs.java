@@ -26,7 +26,7 @@ import org.json.JSONObject;
  * @param <T>
  *            the type of the JSON document. This is typically {@code JSONObject}, {@code JSONArray} or {@code String}.
  */
-public class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
+public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	private final T expected;
 	private final JSONModalComparator<T> comparator;
   private JSONMungingCaptor<T> captor = new NoOpMungingCaptor<T>();
