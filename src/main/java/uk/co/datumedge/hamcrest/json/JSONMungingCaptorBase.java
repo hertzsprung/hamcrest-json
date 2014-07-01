@@ -33,7 +33,7 @@ public abstract class JSONMungingCaptorBase<T> implements JSONMungingCaptor<T> {
   protected Map<String, Object> captured;
 
   @Override
-  public final Map<String, Object> getCaptured() {
+  public Map<String, Object> getCaptured() {
     return captured;
   }
 
