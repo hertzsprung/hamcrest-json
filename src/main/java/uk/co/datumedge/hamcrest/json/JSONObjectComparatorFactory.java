@@ -8,7 +8,8 @@ import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
 /**
- * A {@code JSONComparator} implementation that compares {@code JSONObject}s, backed by SkyScreamer's JSONAssert library.
+ * A {@code JSONComparator} implementation that compares {@code JSONObject}s,
+ * backed by SkyScreamer's JSONAssert library.
  */
 final class JSONObjectComparatorFactory implements JSONAssertComparatorFactory<JSONObject> {
 	private static final JSONAssertComparatorFactory<JSONObject> INSTANCE = new JSONObjectComparatorFactory();

@@ -47,7 +47,7 @@
 	</dependencies>
 	
 	<name>Hamcrest JSON</name>
-	<description>Hamcrest JSON matchers</description>
+	<description>Hamcrest JSON matchers with capture.</description>
 	<url>https://github.com/hertzsprung/hamcrest-json</url>
 	<inceptionYear>2012</inceptionYear>
 	
