@@ -2,6 +2,7 @@ package uk.co.datumedge.hamcrest.json;
 
 /**
  * Allows a comparator's behaviour to be configured to allow any array ordering, or extra unexpected fields.
+ * @param <T> the document type, typically {@code JSONObject} or {@code JSONArray}.
  */
 public interface JSONModalComparator<T> extends JSONComparator<T> {
 	/**

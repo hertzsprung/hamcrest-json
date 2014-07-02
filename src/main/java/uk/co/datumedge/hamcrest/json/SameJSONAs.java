@@ -24,7 +24,8 @@ import org.json.JSONObject;
  * Matcher that asserts that one JSON document is the same as another.
  *
  * @param <T>
- *            the type of the JSON document. This is typically {@code JSONObject}, {@code JSONArray} or {@code String}.
+ *            the type of the JSON document.
+ *            This is typically {@code JSONObject}, {@code JSONArray} or {@code String}.
  */
 public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	private final T expected;
@@ -72,11 +73,11 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 		return new SameJSONAs<T>(expected, comparator
 				.butAllowingAnyArrayOrdering())
 				.capturingTo(getCaptured());
-  }
+	}
 
 	/**
-	 * Creates a matcher that allows fields not present in the expected JSON document.  For example, if the expected
-	 * document is
+	 * Creates a matcher that allows fields not present in the expected JSON document.
+	 * For example, if the expected document is
 <pre>{
     "name" : "John Smith",
     "address" : {
@@ -111,39 +112,41 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 				.capturingTo(getCaptured());
 	}
 
-  /**
-   * @return a map of captured keys and values if capturing has been enabled
-   */
-  public Map<String, Object> getCaptured() {
-    return captor.getCaptured();
-  }
+	/**
+	 * @return a map of captured keys and values if capturing has been enabled
+	*/
+	public Map<String, Object> getCaptured() {
+		return captor.getCaptured();
+	}
 
-  JSONMungingCaptor<T> captorFor(Class clazz, Map<String, Object> captured) {
-    if (expected instanceof JSONObject) {
-      return (JSONMungingCaptor<T>) jsonObjectMungingCaptor(captured);
-    } else if (expected instanceof JSONArray) {
-      return (JSONMungingCaptor<T>) jsonArrayMungingCaptor(captured);
-    } else {
-      return (JSONMungingCaptor<T>) stringMungingCaptor(captured);
-    }
-  }
+	JSONMungingCaptor<T> captorFor(Class clazz, Map<String, Object> captured) {
+		if (expected instanceof JSONObject) {
+			return (JSONMungingCaptor<T>) jsonObjectMungingCaptor(captured);
+		} else if (expected instanceof JSONArray) {
+			return (JSONMungingCaptor<T>) jsonArrayMungingCaptor(captured);
+		} else {
+			return (JSONMungingCaptor<T>) stringMungingCaptor(captured);
+		}
+	}
 
-  /**
-   * Enable capturing to a new Map.
-   * @return this matcher enabled
-   */
-  public SameJSONAs<T> capturing() {
-    return capturingTo(new HashMap<String, Object>());
-  }
+	/**
+	 * Enable capturing to a new Map.
+	 *
+	 * @return this matcher enabled
+	 */
+	public SameJSONAs<T> capturing() {
+		return capturingTo(new HashMap<String, Object>());
+	}
 
-  /**
-   * Enable capturing to the supplied Map.
-   * @return this matcher enabled
-   */
-  public SameJSONAs<T> capturingTo(final Map<String, Object> captured) {
-    captor = captorFor(expected.getClass(), captured);
-    return this;
-  }
+	/**
+	 * Enable capturing to the supplied Map.
+	 *
+	 * @return this matcher enabled
+	 */
+	public SameJSONAs<T> capturingTo(final Map<String, Object> captured) {
+		captor = captorFor(expected.getClass(), captured);
+		return this;
+	}
 
 	/**
 	 * Creates a matcher that compares {@code JSONObject}s.
@@ -157,7 +160,9 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	}
 
 	@Factory
-	public static SameJSONAs<JSONObject> sameJSONObjectAs(JSONObject expected, JSONModalComparator<JSONObject> comparator) {
+	public static SameJSONAs<JSONObject> sameJSONObjectAs(
+			JSONObject expected,
+			JSONModalComparator<JSONObject> comparator) {
 		return new SameJSONAs<JSONObject>(expected, comparator);
 	}
 
@@ -173,12 +178,15 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	}
 
 	@Factory
-	public static SameJSONAs<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONModalComparator<JSONArray> comparator) {
+	public static SameJSONAs<? super JSONArray> sameJSONArrayAs(
+			JSONArray expected,
+			JSONModalComparator<JSONArray> comparator) {
 		return new SameJSONAs<JSONArray>(expected, comparator);
 	}
 
 	/**
-	 * Creates a matcher that compares {@code JSONObject}s or {@code JSONArray}s represented as {@code String}s.
+	 * Creates a matcher that compares {@code JSONObject}s or {@code JSONArray}s
+	 * represented as {@code String}s.
 	 *
 	 * @param expected the expected JSON document
 	 * @return the {@code Matcher} instance
@@ -187,9 +195,10 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	public static SameJSONAs<? super String> sameJSONAs(String expected) {
 		return new SameJSONAs<String>(expected, modalComparatorFor(stringComparison()));
 	}
-	
+
 	@Factory
-	public static SameJSONAs<? super String> sameJSONAs(String expected, JSONModalComparator<String> comparator) {
+	public static SameJSONAs<? super String> sameJSONAs(
+			String expected, JSONModalComparator<String> comparator) {
 		return new SameJSONAs<String>(expected, comparator);
 	}
 }

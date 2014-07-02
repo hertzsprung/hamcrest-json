@@ -12,7 +12,7 @@ final class JSONAssertComparator<T> implements JSONModalComparator<T> {
 	static <T> JSONModalComparator<T> modalComparatorFor(JSONAssertComparatorFactory<T> factory) {
 		return new JSONAssertComparator<T>(factory);
 	}
-	
+
 	private JSONAssertComparator(JSONAssertComparatorFactory<T> factory) {
 		this(factory, STRICT);
 	}
