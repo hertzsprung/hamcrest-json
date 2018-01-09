@@ -9,13 +9,15 @@ To install from Maven Central:
 <dependency>
 	<groupId>uk.co.datumedge</groupId>
 	<artifactId>hamcrest-json</artifactId>
-	<version>0.1</version>
+	<version>0.2</version>
 </dependency>
 ```
 
 Usage
 =====
 ```java
+import static uk.co.datumedge.hamcrest.json.SameJSONAs.*;
+
 assertThat(
 	"{\"age\":43, \"friend_ids\":[16, 52, 23]}",
 	sameJSONAs("{\"friend_ids\":[52, 23, 16]}")
