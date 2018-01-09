@@ -16,6 +16,8 @@ To install from Maven Central:
 Usage
 =====
 ```java
+import static uk.co.datumedge.hamcrest.json.SameJSONAs.*;
+
 assertThat(
 	"{\"age\":43, \"friend_ids\":[16, 52, 23]}",
 	sameJSONAs("{\"friend_ids\":[52, 23, 16]}")
