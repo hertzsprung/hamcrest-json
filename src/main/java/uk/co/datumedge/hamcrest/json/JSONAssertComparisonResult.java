@@ -25,7 +25,7 @@ final class JSONAssertComparisonResult {
 				boolean first = true;
 
 				for (FieldComparisonFailure failure : result.getFieldFailures()) {
-					if (!first) description.appendText(" and ");
+					if (!first) description.appendText("\n      and ");
 					description
 						.appendText("field ").appendText(failure.getField())
 						.appendText(" was ").appendValue(failure.getActual())
