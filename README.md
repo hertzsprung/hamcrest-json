@@ -27,5 +27,5 @@ assertThat(
 
 Resources
 =========
- * [hamcrest-json website](http://datumedge.co.uk/hamcrest-json/)
- * [API documentation](http://datumedge.co.uk/hamcrest-json/apidocs/index.html)
+ * [hamcrest-json website](https://www.datumedge.co.uk/hamcrest-json/)
+ * [API documentation](https://www.datumedge.co.uk/hamcrest-json/apidocs/index.html)
