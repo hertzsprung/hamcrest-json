@@ -15,25 +15,27 @@ import static uk.co.datumedge.hamcrest.json.StringComparatorFactory.stringCompar
 
 import org.hamcrest.StringDescription;
 import org.jmock.Expectations;
-import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.jmock.junit5.JUnit5Mockery;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 public class SameJSONAsTest {
 	private static final String EXCEPTION_MESSAGE = "exception message";
 	private final JSONArray actual = new JSONArray("[13, 85]");
 	private final JSONArray expected = new JSONArray("[42, 63]");
 
-	@Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
+	@RegisterExtension
+	final JUnit5Mockery context = new JUnit5Mockery();
 	@SuppressWarnings("unchecked") private final JSONModalComparator<JSONArray> jsonComparator = context.mock(JSONModalComparator.class);
 	
 	public SameJSONAsTest() throws JSONException {
 	}
 
-	@Test public void matchesEmptyJSONArrays() {
+	@Test
+	public void matchesEmptyJSONArrays() {
 		assertThat(new JSONArray(), is(sameJSONArrayAs(new JSONArray())));
 	}
 
