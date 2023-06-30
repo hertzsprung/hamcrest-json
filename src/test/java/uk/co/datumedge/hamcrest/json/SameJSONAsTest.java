@@ -13,7 +13,6 @@ import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONAs;
 import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONObjectAs;
 import static uk.co.datumedge.hamcrest.json.StringComparatorFactory.stringComparison;
 
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -49,7 +48,7 @@ public class SameJSONAsTest {
 	}
 
 	@Test public void appendsFieldMismatchToMismatchDescription() {
-		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(expected, modalComparatorFor(jsonArrayComparison()));
+		SameJSONAs<JSONArray> matcher = new SameJSONAs<>(expected, modalComparatorFor(jsonArrayComparison()));
 		StringDescriptionAssert.assertThat(mismatchDescriptionFor(actual, matcher), both(
 				containsString("13")).and(containsString("42")).and(containsString("85")).and(containsString("63")));
 	}
@@ -79,7 +78,7 @@ public class SameJSONAsTest {
 		allowingJSONComparatorToThrowJSONException();
 		
 		StringDescription mismatchDescription = new StringDescription();
-		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(expected, jsonComparator);
+		SameJSONAs<JSONArray> matcher = new SameJSONAs<>(expected, jsonComparator);
 		matcher.matches(actual);
 		matcher.describeMismatch(actual, mismatchDescription);
 		StringDescriptionAssert.assertThat(mismatchDescription, both(containsString(EXCEPTION_MESSAGE)).and(containsString(SameJSONAs.class.getName())));

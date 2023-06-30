@@ -57,7 +57,7 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @return the configured matcher
 	 */
 	public SameJSONAs<T> allowingAnyArrayOrdering() {
-		return new SameJSONAs<T>(expected, comparator.butAllowingAnyArrayOrdering());
+		return new SameJSONAs<>(expected, comparator.butAllowingAnyArrayOrdering());
 	}
 
 	/**
@@ -92,7 +92,7 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @return the configured matcher
 	 */
 	public SameJSONAs<T> allowingExtraUnexpectedFields() {
-		return new SameJSONAs<T>(expected, comparator.butAllowingExtraUnexpectedFields());
+		return new SameJSONAs<>(expected, comparator.butAllowingExtraUnexpectedFields());
 	}
 
 	/**
@@ -102,11 +102,11 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @return the {@code Matcher} instance
 	 */
 	public static SameJSONAs<JSONObject> sameJSONObjectAs(JSONObject expected) {
-		return new SameJSONAs<JSONObject>(expected, modalComparatorFor(jsonObjectComparison()));
+		return new SameJSONAs<>(expected, modalComparatorFor(jsonObjectComparison()));
 	}
 
 	public static SameJSONAs<JSONObject> sameJSONObjectAs(JSONObject expected, JSONModalComparator<JSONObject> comparator) {
-		return new SameJSONAs<JSONObject>(expected, comparator);
+		return new SameJSONAs<>(expected, comparator);
 	}
 
 	/**
@@ -116,11 +116,11 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @return the {@code Matcher} instance
 	 */
 	public static SameJSONAs<JSONArray> sameJSONArrayAs(JSONArray expected) {
-		return new SameJSONAs<JSONArray>(expected, modalComparatorFor(jsonArrayComparison()));
+		return new SameJSONAs<>(expected, modalComparatorFor(jsonArrayComparison()));
 	}
 
 	public static SameJSONAs<? super JSONArray> sameJSONArrayAs(JSONArray expected, JSONModalComparator<JSONArray> comparator) {
-		return new SameJSONAs<JSONArray>(expected, comparator);
+		return new SameJSONAs<>(expected, comparator);
 	}
 
 	/**
@@ -130,10 +130,10 @@ public final class SameJSONAs<T> extends TypeSafeDiagnosingMatcher<T> {
 	 * @return the {@code Matcher} instance
 	 */
 	public static SameJSONAs<? super String> sameJSONAs(String expected) {
-		return new SameJSONAs<String>(expected, modalComparatorFor(stringComparison()));
+		return new SameJSONAs<>(expected, modalComparatorFor(stringComparison()));
 	}
 	
 	public static SameJSONAs<? super String> sameJSONAs(String expected, JSONModalComparator<String> comparator) {
-		return new SameJSONAs<String>(expected, comparator);
+		return new SameJSONAs<>(expected, comparator);
 	}
 }
