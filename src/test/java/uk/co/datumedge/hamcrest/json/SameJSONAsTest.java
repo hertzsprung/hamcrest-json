@@ -12,8 +12,8 @@ import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONArrayAs;
 import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONAs;
 import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONObjectAs;
 import static uk.co.datumedge.hamcrest.json.StringComparatorFactory.stringComparison;
-import static uk.co.datumedge.hamcrest.json.StringDescriptionAssert.assertThat;
 
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -48,18 +48,18 @@ public class SameJSONAsTest {
 		assertThat(description.toString(), is("\"[831]\""));
 	}
 
-	@Test public void appendsFieldMismatchToMismatchDescription() throws JSONException {
+	@Test public void appendsFieldMismatchToMismatchDescription() {
 		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(expected, modalComparatorFor(jsonArrayComparison()));
-		assertThat(mismatchDescriptionFor(actual, matcher), both(
+		StringDescriptionAssert.assertThat(mismatchDescriptionFor(actual, matcher), both(
 				containsString("13")).and(containsString("42")).and(containsString("85")).and(containsString("63")));
 	}
 
-	@Test public void appendsMissingKeyToMismatchDescription() throws JSONException {
-		assertThat(mismatchDescriptionFor("{}", sameJSONAs("{\"missingKey\": 6}")), containsString("missingKey"));
+	@Test public void appendsMissingKeyToMismatchDescription() {
+		StringDescriptionAssert.assertThat(mismatchDescriptionFor("{}", sameJSONAs("{\"missingKey\": 6}")), containsString("missingKey"));
 	}
 	
-	@Test public void appendsFailureStringToMismatchDescription() throws JSONException {
-		assertThat(mismatchDescriptionFor("{\"myField\":[3]}", sameJSONAs("{\"myField\": 5}")), is(not("")));
+	@Test public void appendsFailureStringToMismatchDescription() {
+		StringDescriptionAssert.assertThat(mismatchDescriptionFor("{\"myField\":[3]}", sameJSONAs("{\"myField\": 5}")), is(not("")));
 	}
 
 	private <T> StringDescription mismatchDescriptionFor(T actual, SameJSONAs<? super T> matcher) {
@@ -82,7 +82,7 @@ public class SameJSONAsTest {
 		SameJSONAs<JSONArray> matcher = new SameJSONAs<JSONArray>(expected, jsonComparator);
 		matcher.matches(actual);
 		matcher.describeMismatch(actual, mismatchDescription);
-		assertThat(mismatchDescription, both(containsString(EXCEPTION_MESSAGE)).and(containsString(SameJSONAs.class.getName())));
+		StringDescriptionAssert.assertThat(mismatchDescription, both(containsString(EXCEPTION_MESSAGE)).and(containsString(SameJSONAs.class.getName())));
 	}
 
 	@Test public void doesNotMatchWhenActualJSONHasExtraFields() throws JSONException {
