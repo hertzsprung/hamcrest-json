@@ -1,4 +1,4 @@
-on: [push, pull_request]
+on: push
 jobs:
   mvn-verify:
     runs-on: ubuntu-22.04
