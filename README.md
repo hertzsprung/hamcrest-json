@@ -1,4 +1,5 @@
 Hamcrest matchers for comparing JSON documents, backed by the [JSONassert library](https://github.com/skyscreamer/JSONassert).  The code is released under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
+Supports Java 8 or later.
 
 Installation
 ============
