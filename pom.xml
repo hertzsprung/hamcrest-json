@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>hamcrest-json</artifactId>
 	<groupId>uk.co.datumedge</groupId>
-	<version>0.3-SNAPSHOT</version>
+	<version>0.3</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -220,7 +220,8 @@
 		<connection>scm:git:git://github.com/hertzsprung/hamcrest-json.git</connection>
 		<developerConnection>scm:git:git@github.com:hertzsprung/hamcrest-json.git</developerConnection>
 		<url>http://github.com/hertzsprung/hamcrest-json</url>
-	</scm>
+	  <tag>hamcrest-json-0.3</tag>
+  </scm>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>sonatype-nexus-snapshots</id>
